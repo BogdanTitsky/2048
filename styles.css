@@ -38,8 +38,8 @@ body {
     top: calc(var(--y) * (var(--cell-size) + var(--cell-gap)) + var(--cell-gap));
     left: calc(var(--x) * (var(--cell-size) + var(--cell-gap)) + var(--cell-gap));
     font-weight: 700;
-    background-color: hsl(200, 50%, var(--background-lightness));
-    color: hsl(200, 25%, var(--text-lightness));
+    background-color: hsl(300, 100%, var(--background-lightness));
+    color: hsl(20, 25%, var(--text-lightness));
     animation: show 200ms ease-in-out;
     transition: 100ms ease-in-out;
 }

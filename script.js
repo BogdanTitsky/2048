@@ -167,34 +167,47 @@ function handleSwipe() {
     }
 }
 
-function handleSwipeUp() {
+async function handleSwipeUp() {
     if (!canMoveUp()) {
-        setupInput();
         return;
     }
-    moveUp();
+    await moveUp();
+    handleAfterMove();
 }
 
-function handleSwipeDown() {
+async function handleSwipeDown() {
     if (!canMoveDown()) {
-        setupInput();
         return;
     }
-    moveDown();
+    await moveDown();
+    handleAfterMove();
 }
 
-function handleSwipeLeft() {
+async function handleSwipeLeft() {
     if (!canMoveLeft()) {
-        setupInput();
         return;
     }
-    moveLeft();
+    await moveLeft();
+    handleAfterMove();
 }
 
-function handleSwipeRight() {
+async function handleSwipeRight() {
     if (!canMoveRight()) {
-        setupInput();
         return;
     }
-    moveRight();
+    await moveRight();
+    handleAfterMove();
+}
+
+function handleAfterMove() {
+    grid.cells.forEach((cell) => cell.mergeTiles());
+
+    const newTile = new Tile(gameBoard);
+    grid.randomEmptyCell().tile = newTile;
+
+    if (!canMoveUp() && !canMoveDown() && !canMoveLeft() && !canMoveRight()) {
+        newTile.waitForTransirion(true).then(() => {
+            alert('Game Over');
+        });
+    }
 }
