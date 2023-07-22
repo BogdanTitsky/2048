@@ -8,6 +8,8 @@ body {
     justify-content: center;
     height: 100vh;
     font-size: 7.5vmin;
+
+    overflow: hidden;
 }
 
 #game-board {
