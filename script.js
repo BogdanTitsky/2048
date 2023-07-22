@@ -12,6 +12,8 @@ setupInput();
 
 function setupInput() {
     window.addEventListener('keydown', handleInput, { once: true });
+    document.addEventListener('touchstart', handleTouchStart, false);
+    document.addEventListener('touchend', handleTouchEnd, false);
 }
 
 async function handleInput(event) {
@@ -128,4 +130,71 @@ function canMove(cells) {
             return moveToCell.canAccept(cell.tile);
         });
     });
+}
+
+let startX, startY, endX, endY;
+
+function handleTouchStart(event) {
+    const touch = event.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+}
+
+function handleTouchEnd(event) {
+    const touch = event.changedTouches[0];
+    endX = touch.clientX;
+    endY = touch.clientY;
+    handleSwipe();
+}
+
+function handleSwipe() {
+    const deltaX = endX - startX;
+    const deltaY = endY - startY;
+    const swipeThreshold = 50;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > swipeThreshold) {
+        if (deltaX > 0) {
+            handleSwipeRight();
+        } else {
+            handleSwipeLeft();
+        }
+    } else if (Math.abs(deltaY) > swipeThreshold) {
+        if (deltaY > 0) {
+            handleSwipeDown();
+        } else {
+            handleSwipeUp();
+        }
+    }
+}
+
+function handleSwipeUp() {
+    if (!canMoveUp()) {
+        setupInput();
+        return;
+    }
+    moveUp();
+}
+
+function handleSwipeDown() {
+    if (!canMoveDown()) {
+        setupInput();
+        return;
+    }
+    moveDown();
+}
+
+function handleSwipeLeft() {
+    if (!canMoveLeft()) {
+        setupInput();
+        return;
+    }
+    moveLeft();
+}
+
+function handleSwipeRight() {
+    if (!canMoveRight()) {
+        setupInput();
+        return;
+    }
+    moveRight();
 }
